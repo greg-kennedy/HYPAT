@@ -1,0 +1,1 @@
+{% if name %}<a href="{% url 'games:release_list' game_id %}#release-{{ release_id }}" class="release{% if primary %} primary{% endif %}">{{ name }}</a>{% else %}<span class="release">{{ release_id }}</span>{% endif %}
