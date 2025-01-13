@@ -1,0 +1,73 @@
+{% load static %}
+{# {% load tags_games %} #}
+{# {% load tags_user_profiles %} #}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{ site.name }} - {% block title %}Welcome{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- <script src="{% static 'js/script.js' %}"></script> -->
+  </head>
+  <body>
+    <div id="header">
+      <a href="/"><img id="banner" src="{% static 'banner.png' %}" alt="Have You Played Atari Today?"></a>
+    </div>
+    <div id="main">
+      <div id="left-sidebar" class="column">
+        <div id="sitemenu">
+          <h3>Site Menu</h3>
+          <ul class="menulist">
+            <li class="home"><a href="{% url 'index' %}">Home</a>
+            <li class="game"><a href="{% url 'games:game_list' %}">Games</a>
+            <ul class="menulist">
+              <li class="game"><a href="{% url 'games:game_list' %}?canonical=1">Canonical</a>
+            </ul>
+            {# <li class="reviews"><a href="{% url 'reviews:review_list' %}">Reviews</a> #}
+            </li>
+          </ul>
+          <h3>User Menu</h3>
+          <ul class="menulist">
+{% if user.is_authenticated %}
+            <li>Logged in as {{ user.get_username }}</li>
+            <li id="user-profile"><a href="{% url 'user_profiles:profile_detail' user.pk %}">My Profile</a>
+            {% if user.is_staff %}<li id="admin"><a href="/admin" target="admin">Staff Area</a>{% endif %}
+
+            <form method="post" action="{% url 'account_logout' %}">
+              {% csrf_token %}
+              <input type="submit" value="Log Out">
+            </form>
+{% else %}
+            <li id="login"><a href="{% url 'account_login' %}">Log In</a>
+	    <li id="register"><a href="{% url 'account_signup' %}">Register</a>
+{% endif %}
+          </ul>
+        </div>
+      </div>
+
+      <div id="content" class="column">
+{% block messages %}
+{% if messages %}
+        <h3>Messages:</h3>
+        <ul class="messages">{% for message in messages %}
+           <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|linebreaks }}</li>
+        {% endfor %}</ul>
+{% endif %}
+{% endblock messages %}
+        <div id="content-header">
+          <h1>
+{% block content_header %}
+{% endblock %}
+          </h1>
+        </div>
+        <div id="content-main">
+{% block content %}
+{% endblock %}
+        </div>
+      </div>
+    </div>
+    <div id="footer">
+      <small>Powered by <a href="https://github.com/greg-kennedy/HYPAT">HYPAT</a></small>
+    </div>
+  </body>
+</html>

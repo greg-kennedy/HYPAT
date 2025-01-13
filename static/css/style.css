@@ -1,0 +1,66 @@
+html {
+  background: MidnightBlue
+}
+
+body {
+  background: SteelBlue;
+
+  margin: 1rem auto;
+  border: 1px solid black;
+  padding: 1rem
+}
+
+div#header, div#footer, .center {
+  text-align: center
+}
+
+img#banner {
+  width: 100%
+}
+
+img#screenshot {
+  width: 75%;
+  border: 1px solid black;
+  text-align: center
+}
+
+div#left-sidebar {
+  float: left
+}
+
+div#content {
+  display: inline-block
+}
+
+div.column {
+  background: White;
+  max-width: 100vh;
+
+  margin: 1rem auto;
+  border: 1px solid black;
+  padding: 1rem
+}
+
+.user.none:before {
+  content: "👻"
+}
+
+.user.default:before {
+  content: "👤"
+}
+
+.user.staff:before {
+  content: "👷"
+}
+
+.user.superuser:before {
+  content: "👽"
+}
+
+.game:before {
+  content: "🕹"
+}
+
+.release:before {
+  content: "👾"
+}

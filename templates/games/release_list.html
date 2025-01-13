@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Releases - {{ game.name }}
+{% endblock %}
+
+{% block content_header %}
+Releases - {{ game.name }}{% if perms.games.change_game %} [<a href="{% url 'admin:games_game_change' game.id %}">Administrate Game</a>]{% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="detail-infobox">
+    {% for object in object_list %}
+    <a id="release-{{ object.pk }}"><h2>{{ object.name }}</h2></a>
+    <img class="screenshot" src="{{ object.image.url }}" title="Screenshot of {{ object.name }}" alt="Screenshot of {{ object.name }}" /><br />
+    <h1><a href="{{ object.rom.url }}">Download ROM</a></h1>
+    <dl>
+      <dt>Alternate Name (e.g. transation)</dt><dd><b>{{ object.alt }}</b></dd>
+      <dt>Clone of</dt><dd><b>{{ object.aka }}</b></dd>
+      <dt>Beta</dt><dd><b>{{ object.beta }}</b></dd>
+      <dt>Release Date</dt><dd><b>{{ object.year }}</b></dd>
+      <dt>Manufacturer</dt><dd><b>{{ object.mfg }}</b></dd>
+      <dt>Serial / Model Number</dt><dd><b>{{ object.serial }}</b></dd>
+      <dt>Region</dt><dd><b>{{ object.region }}</b></dd>
+      <dt>Controller</dt><dd><b>{{ object.controller }}</b></dd>
+      <dt>Compilation</dt><dd><b>{{ object.comp }}</b></dd>
+      <dt>Disambiguation</dt><dd><b>{{ object.disam }}</b></dd>
+      <dt>Multi-part</dt><dd><b>{{ object.multi }}</b></dd>
+      <dt>URL</dt><dd><b>{{ object.url }}</b></dd>
+    </dl>
+    {% endfor %}
+  </div>
+{% endblock %}

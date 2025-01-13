@@ -1,0 +1,6 @@
+# Django base
+Django>=5.2,<6.0
+# Image operations
+Pillow
+# Login / account
+django-allauth

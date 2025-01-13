@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load tags_games %}
+{% load tags_user_profiles %}
+
+{% block title %}
+Review - {{ object.name }}
+{% endblock %}
+
+{% block content_header %}
+Review - {{ object.name }}{% if perms.reviews.change_review %} [<a href="{% url 'admin:reviews_review_change' object.pk %}">Administrate Review</a>]{% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="detail-infobox">
+    <h1>{% 
+    <dl>
+      <dt>Name</dt><dd><b>{{ object.name }}</b></dd>
+      <dt>Manufacturer</dt><dd><b>{{ object.primary.mfg }}</b></dd>
+      <dt>Release Date</dt><dd><b>{{ object.primary.year }}</b></dd>
+      <dt>Enabled</dt><dd><b>{{ object.enabled }}</b></dd>
+      <dt>Description</dt><dd><b>{{ object.description }}</b></dd>
+    </dl>
+  </div>
+  <div class="detail-release-list">
+    Specific releases of this review:
+    <table>
+      <tr>
+        <th>Primary</th>
+        <th>Name</th>
+        <th>Developer</th>
+        <th>Region</th>
+        <th>Status</th>
+      </tr>
+{% for release in object.release_set.all %}
+      <tr>
+        <td><img src="/static/admin/img/icon-{% if release.primary %}yes{% else %}no{% endif %}.svg" alt="{{ release.primary }}"></td>
+        <td>{% release release.pk %}</td>
+        <td>{{ release.mfg }}</td>
+        <td>{{ release.region }}</td>
+        <td>{{ release.beta }}</td>
+      </tr>
+{% endfor %}
+    </table>
+  </div>
+{% endblock %}

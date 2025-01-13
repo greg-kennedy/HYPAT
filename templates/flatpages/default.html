@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{# {% load tags_games %} #}
+{% load tags_user_profiles %}
+
+{% block title %}
+{{ flatpage.title }}
+{% endblock %}
+
+{% block content_header %}
+{{ flatpage.title }}{% if perms.flatpages.change_flatpage %} [<a href="{% url 'admin:flatpages_flatpage_change' flatpage.pk %}">Administrate Page</a>]{% endif %}
+{% endblock %}
+
+{% block content %}
+{{ flatpage.content }}
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load tags_user_profiles %}
+
+{% block title %}
+Game - {{ object.name }}
+{% endblock %}
+
+{% block content_header %}
+Game - {{ object.name }}{% if perms.games.change_game %} [<a href="{% url 'admin:games_game_change' object.pk %}">Administrate Game</a>]{% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="detail-infobox">
+    <img id="screenshot" src="{{ object.primary.image.url }}" title="Screenshot of {{ object.name }}" alt="Screenshot of {{ object.name }}" /><br />
+    <h1><a href="{{ object.primary.rom.url }}">Download ROM</a></h1>
+    <dl>
+      <dt>Name</dt><dd><b>{{ object.name }}</b></dd>
+      <dt>Manufacturer</dt><dd><b>{{ object.primary.mfg }}</b></dd>
+      <dt>Release Date</dt><dd><b>{{ object.primary.year }}</b></dd>
+      <dt>Canonical</dt><dd><b>{{ object.is_canon }}</b></dd>
+      <dt>Description</dt><dd><b>{{ object.description }}</b></dd>
+    </dl>
+  </div>
+  <div class="detail-release-list">
+    Specific releases of this game:
+    <table>
+      <tr>
+        <th>Primary</th>
+        <th>Name</th>
+        <th>Developer</th>
+        <th>Region</th>
+        <th>Status</th>
+      </tr>
+{% for release in object.release_set.all %}
+      <tr>
+        <td><img src="/static/admin/img/icon-{% if object.primary == release %}yes{% else %}no{% endif %}.svg"></td>
+        <td><a href="{% url 'games:release_list' object.pk %}">{{ release.name }}</a></td>
+        <td>{{ release.mfg }}</td>
+        <td>{{ release.region }}</td>
+        <td>{{ release.beta }}</td>
+      </tr>
+{% endfor %}
+    </table>
+  </div>
+
+<hr>
+
+<h3>Ratings</h3>
+<table>
+<tr>
+  <th>User</th>
+  <th>Rating</th>
+  <th>Review</th>
+  <th>Posted</th>
+</tr>
+{% for review in object.review_set.all %}
+<tr>
+  {# <td>{% user review.user.pk %}</td> #}
+  <td>{{ review.rating }}</td>
+  <td>{{ review.review }}</td>
+  <td>{{ review.created }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
