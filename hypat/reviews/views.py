@@ -1,6 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-from django.core.exceptions import PermissionDenied
 from django.views.generic.edit import UpdateView
 
 from .models import Review

@@ -1,13 +1,9 @@
 from django.db import models
 
-from django.utils.functional import cached_property
 
-
-# Create your models here.
 class Game(models.Model):
-
     name = models.CharField(
-        max_length=191, unique=True, help_text="Name of the game group"
+        max_length=255, unique=True, help_text="Name of the game group"
     )
 
     is_canon = models.BooleanField(
@@ -34,7 +30,7 @@ class Game(models.Model):
     def get_absolute_url(self):
         from django.urls import reverse
 
-        return reverse("games:game_detail", args=[str(self.id)])
+        return reverse("games:game_detail", args=[str(self.pk)])
 
     class Meta:
         ordering = ["name"]
@@ -44,26 +40,48 @@ class Game(models.Model):
 
 
 class Release(models.Model):
+    class Region(models.TextChoices):
+        NTSC = "N", "NTSC"
+        PAL = "P", "PAL"
+        SECAM = "S", "SECAM"
+
+    class Controller(models.TextChoices):
+        JOYSTICK = "JS", "Joystick"
+        TRON = "TJ", "TRON Joystick"
+        KID = "KC", "Kid's Controller"
+        PADDLE = "PD", "Paddle"
+        KEYBOARD = "KB", "Keyboard Controller"
+        KIDVID = "KV", "Kid Vid Voice Module"
+        MINDLINK = "ML", "Mindlink Controller"
+        DRIVING = "DC", "Driving Controller"
+        JOYBOARD = "JB", "Joyboard"
+        BOOSTER = "BG", "Booster Grip"
+        LIGHTGUN = "LG", "Light Gun"
+        DUAL = "DM", "Dual Control Module"
+        TOUCH = "TP", "Video Touch Pad"
+        TRACK_FIELD = "TF", "Track & Field Controller"
+        BIKE = "BT", "Bike Trainer"
+
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
 
     rom = models.FileField(max_length=255)
     image = models.ImageField(max_length=255)
 
-    name = models.CharField(max_length=255, blank=False)
-    alt = models.CharField(max_length=255)
-    aka = models.CharField(max_length=255)
-    beta = models.CharField(max_length=255)
-    year = models.CharField(max_length=255)
-    mfg = models.CharField(max_length=255)
-    serial = models.CharField(max_length=255)
-    region = models.CharField(max_length=255)
-    controller = models.CharField(max_length=255)
-    comp = models.CharField(max_length=255)
-    disam = models.CharField(max_length=255)
-    multi = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    alt = models.CharField(max_length=255, blank=True)
+    aka = models.CharField(max_length=255, blank=True)
+    beta = models.CharField(max_length=255, blank=True)
+    year = models.CharField(max_length=255, blank=True)
+    mfg = models.CharField(max_length=255, blank=True)
+    serial = models.CharField(max_length=255, blank=True)
+    region = models.CharField(max_length=1, choices = Region, default = Region.NTSC)
+    controller = models.CharField(max_length=2, choices = Controller, default = Controller.JOYSTICK)
+    comp = models.CharField(max_length=255, blank=True)
+    disam = models.CharField(max_length=255, blank=True)
+    multi = models.CharField(max_length=255, blank=True)
 
-    url = models.CharField(max_length=255)
-    note = models.TextField()
+    url = models.URLField(max_length=255, blank=True)
+    note = models.TextField(blank=True)
 
     class Meta:
         unique_together = (

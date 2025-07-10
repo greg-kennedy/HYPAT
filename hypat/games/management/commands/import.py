@@ -38,15 +38,17 @@ class Command(BaseCommand):
 
             # release loading
             p = None
-            allProto = True
+            all_proto = True
 
             for filename, release in sorted(releases.items()):
+                r = None
+
                 if "beta" not in release:
-                    allProto = False
+                    all_proto = False
                 try:
                     r = Release.objects.get(
                         game=g,
-                        #primary=release.get("primary", False),
+                        # primary=release.get("primary", False),
                         name=release.get("name", ""),
                         alt=release.get("alt", ""),
                         aka=release.get("aka", ""),
@@ -76,7 +78,7 @@ class Command(BaseCommand):
                                 ),
                                 name=release.get("image", "default_snapshot.png"),
                             ),
-                            #primary=release.get("primary", False),
+                            # primary=release.get("primary", False),
                             name=release.get("name", ""),
                             alt=release.get("alt", ""),
                             aka=release.get("aka", ""),
@@ -105,7 +107,7 @@ class Command(BaseCommand):
                 if release.get("primary", False):
                     p = r
 
-            g.is_canon = not allProto
+            g.is_canon = not all_proto
             g.primary = p
             g.save()
 

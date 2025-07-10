@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.forms import ModelForm
+
 from hypat.games.models import Game, Release
 
 
@@ -16,11 +17,9 @@ class GameAdminForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["primary"].queryset = self.instance.release_set.all()
 
+
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    #list_display = ["id", "is_canon", "name", "release_count"]
-    #list_filter = ["is_canon"]
-    #list_editable = ["is_canon"]
     inlines = [ReleaseInlineAdmin]
     form = GameAdminForm
 

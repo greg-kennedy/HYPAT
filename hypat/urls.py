@@ -15,30 +15,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.contrib import admin
-from django.urls import path
-from django.conf.urls import include
-
-from django.conf import settings
-from django.conf.urls.static import static
-
 from debug_toolbar.toolbar import debug_toolbar_urls
-
-
+from django.conf import settings
+from django.conf.urls import include
+from django.conf.urls.static import static
+from django.contrib import admin
 from django.contrib.flatpages.views import flatpage
+from django.urls import path
 
 # from django.views.generic.base import TemplateView
 
 urlpatterns = (
-    [
-        path("game/", include("hypat.games.urls")),
-        path("user/", include("hypat.user_profiles.urls")),
-        path("review/", include("hypat.reviews.urls")),
-        path("admin/doc/", include("django.contrib.admindocs.urls")),
-        path("admin/", admin.site.urls),
-        path("accounts/", include("allauth.urls")),
-        path("", flatpage, {"url": "/"}, name="index"),
-    ]
-    + debug_toolbar_urls()
-    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+        [
+            path("game/", include("hypat.games.urls")),
+            path("user/", include("hypat.user_profiles.urls")),
+            path("review/", include("hypat.reviews.urls")),
+            path("admin/doc/", include("django.contrib.admindocs.urls")),
+            path("admin/", admin.site.urls),
+            path("accounts/", include("allauth.urls")),
+            path("", flatpage, {"url": "/"}, name="index"),
+        ]
+        + debug_toolbar_urls()
+        + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )

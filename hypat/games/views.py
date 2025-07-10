@@ -1,10 +1,7 @@
 from django.shortcuts import get_object_or_404
-
 from django.views.generic.list import ListView
 
 from .models import Game, Release
-
-# Create your views here.
 
 
 class ReleaseListView(ListView):
@@ -19,9 +16,10 @@ class ReleaseListView(ListView):
         context['game'] = self.game
         return context
 
+
 class GameListView(ListView):
     model = Game
-    paginate_by=100
+    paginate_by = 100
 
     def get_queryset(self):
         # base qs

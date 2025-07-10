@@ -1,18 +1,15 @@
-from django.db import models
-
-from django.utils.functional import cached_property
 from django.contrib.auth.models import User
+from django.db import models
+from django.utils.functional import cached_property
 
 from ..games.models import Game
 
 
-# Create your models here.
 class Review(models.Model):
-
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    #pk = models.CompositePrimaryKey("game", "user")
+    # pk = models.CompositePrimaryKey("game", "user")
 
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
